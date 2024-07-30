@@ -48,13 +48,15 @@ const TypingIndicator = () => {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        padding: 2,
-        mt:10,
-        borderRadius: 7,
-        backgroundColor: '#2c2c2c',
+        justifyContent: 'flex-start',
+        width:120,        padding: 1.2,
+        paddingLeft: 3,
+        paddingRight: 3,
+        borderRadius: '30px',
+        backgroundColor: '#1E2428',
+        color: '#D1D1D1',
+        wordBreak: 'break-word',
         marginBottom: 2,
-        color: '#ffffff',
-        width:110
       }}
     >
       <DotWrapper>
@@ -63,7 +65,7 @@ const TypingIndicator = () => {
         <Dot />
         <Dot />
       </DotWrapper>
-      <Typography variant="body1" sx={{ marginLeft: 0 }}>Typing...</Typography>
+      <Typography variant="body1" sx={{ marginLeft: 1 }}>Typing...</Typography>
     </Box>
   );
 };

@@ -1,56 +1,36 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Box, Typography, TextField, Button, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Switch, IconButton } from '@mui/material';
+import { Box, Typography, TextField, Button, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 import TypingIndicator from './TypingIndicator';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
+import SendIcon from '@mui/icons-material/Send';
 
-// Define light and dark themes
+// Define dark theme
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#128C7E', // WhatsApp primary green
+      main: '#005046', // WhatsApp primary green
     },
     secondary: {
-      main: '#25D366', // WhatsApp secondary green
+      main: '#005046', // WhatsApp secondary green
     },
     background: {
-      default: '#131C21', // WhatsApp background color
-      paper: '#1E2428', // WhatsApp chat bubble background
+      default: '#161717', // WhatsApp background color
+      paper: '#282829', // WhatsApp chat bubble background
     },
     text: {
       primary: '#D1D1D1',
       secondary: '#B3B3B3',
     },
+    send:{
+      main: '#24d366'
+    }
   },
   typography: {
-    fontFamily: 'Roboto, Arial, sans-serif',
-  },
-});
-
-const lightTheme = createTheme({
-  palette: {
-    mode: 'light',
-    primary: {
-      main: '#338EFA', // WhatsApp primary green
-    },
-    secondary: {
-      main: '#338EFA', // WhatsApp secondary green
-    },
-    background: {
-      default: '#ffffff', // Light background
-      paper: '#f1f1f1', // Light chat bubble background
-    },
-    text: {
-      primary: '#000000',
-      secondary: '#338EFA',
-    },
-  },
-  typography: {
-    fontFamily: 'Roboto, Arial, sans-serif',
+    fontFamily: 'Helvetica',
+    fontSize:12
   },
 });
 
@@ -70,13 +50,19 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
-  const [themeMode, setThemeMode] = useState('dark'); // Default to dark mode
   const chatContainerRef = useRef(null);
 
   const API_KEY = 'AIzaSyD6O2MQ5yKAtAhRwMuxjE3-mR5BE2W-rkY'; // Replace with your actual API key
 
   const sendMessage = async (text) => {
     setIsTyping(true);
+
+    // Show the user's message immediately
+    setMessages((prevMessages) => [
+      ...prevMessages,
+      { text, sender: 'user' },
+    ]);
+
     const requestBody = {
       contents: [{ parts: [{ text }] }],
     };
@@ -96,7 +82,6 @@ const Chat = () => {
 
       setMessages((prevMessages) => [
         ...prevMessages,
-        { text, sender: 'user' },
         { text: tableMarkdown || botResponse, sender: 'bot', tableMarkdown },
       ]);
     } catch (error) {
@@ -115,18 +100,11 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    // Scroll to the bottom when typing indicator is shown
-    if (chatContainerRef.current && isTyping) {
-      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
-    }
-  }, [isTyping]);
-
-  useEffect(() => {
-    // Scroll to the bottom whenever messages state updates
+    // Scroll to the bottom whenever messages state updates or typing status changes
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, isTyping]);
 
   const renderContent = (content) => {
     // Check if content includes <pre> tags
@@ -200,13 +178,8 @@ const Chat = () => {
   };
 
   return (
-    <ThemeProvider theme={themeMode === 'dark' ? darkTheme : lightTheme}>
-      <Box sx={{ mb: 9, height: '100vh', overflowY: 'auto', padding: 2, backgroundColor: 'background.default', color: 'text.primary', mb: 11 }}>
-        <Box sx={{ position: 'absolute', top: 10, right: 10 }}>
-          <IconButton onClick={() => setThemeMode(prevMode => prevMode === 'dark' ? 'light' : 'dark')}>
-            {themeMode === 'dark' ? <LightModeIcon sx={{ color: '#ffffff' }} /> : <DarkModeIcon sx={{ color: '#000000' }} />}
-          </IconButton>
-        </Box>
+    <ThemeProvider theme={darkTheme}>
+      <Box sx={{ mb: 9, height: '150vh', overflowY: 'auto', padding: 2, backgroundColor: 'background.default', color: 'text.primary', mb: 8 }} ref={chatContainerRef}>
         <Grid container spacing={2}>
           {messages.map((msg, index) => (
             <Grid item key={index} xs={12}>
@@ -220,8 +193,10 @@ const Chat = () => {
                 <Box
                   sx={{
                     maxWidth: '75%',
-                    padding: 2,
-                    borderRadius: '6px',
+                    padding: 1.2,
+                    paddingLeft: 3,
+                    paddingRight: 3,
+                    borderRadius: '30px',
                     backgroundColor: msg.sender === 'user' ? '#128C7E' : '#1E2428',
                     color: msg.sender === 'user' ? '#FFFFFF' : '#D1D1D1',
                     wordBreak: 'break-word',
@@ -242,7 +217,7 @@ const Chat = () => {
             <TypingIndicator />
           </Grid>
         )}
-        <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: 1, borderTop: '1px solid #333', backgroundColor: 'background.paper' }}>
+        <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: 0, borderTop: '1px solid #333', backgroundColor: 'background.paper' }}>
           <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center', padding: '8px', borderRadius: '30px' }}>
             <TextField
               fullWidth
@@ -253,7 +228,7 @@ const Chat = () => {
               sx={{
                 marginRight: 1,
                 borderRadius: '30px',
-                backgroundColor: '#333333',
+                backgroundColor: '#3c3c3d',
                 '& .MuiInputBase-input': { color: '#ffffff' },
                 '& .MuiOutlinedInput-root': {
                   borderRadius: '30px',
@@ -263,9 +238,24 @@ const Chat = () => {
                 },
               }}
             />
-            <Button type="submit" variant="contained" color="primary" sx={{ borderRadius: 6 }}>
-              Send
-            </Button>
+            
+<Button 
+  type="submit" 
+  variant="contained" 
+  color="send" 
+  sx={{ 
+    borderRadius: '50%', 
+    width: 40, 
+    height: 40, 
+    minWidth: 0, 
+    padding: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }}
+>
+  <SendIcon />
+</Button>
           </form>
         </Box>
       </Box>
