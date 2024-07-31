@@ -6,19 +6,19 @@ import { styled } from '@mui/material/styles';
 import TypingIndicator from './TypingIndicator';
 import SendIcon from '@mui/icons-material/Send';
 
-// Define dark theme
+
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#005046', // WhatsApp primary green
+      main: '#005046', 
     },
     secondary: {
-      main: '#005046', // WhatsApp secondary green
+      main: '#005046', 
     },
     background: {
-      default: '#161717', // WhatsApp background color
-      paper: '#282829', // WhatsApp chat bubble background
+      default: '#161717', 
+      paper: '#282829', 
     },
     text: {
       primary: '#D1D1D1',
@@ -30,11 +30,11 @@ const darkTheme = createTheme({
   },
   typography: {
     fontFamily: 'Helvetica',
-    fontSize:12
+    fontSize:13
   },
 });
 
-// Styled <pre> tag
+// Styled <pre> tag for styling the code segment outpts . need to improve this more
 const StyledPre = styled('pre')(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
   color: theme.palette.text.secondary,
@@ -43,7 +43,7 @@ const StyledPre = styled('pre')(({ theme }) => ({
   overflowX: 'auto',
   whiteSpace: 'pre-wrap',
   wordBreak: 'break-word',
-  margin: 0, // Ensure no extra margin
+  margin: 0, 
 }));
 
 const Chat = () => {
@@ -52,12 +52,11 @@ const Chat = () => {
   const [isTyping, setIsTyping] = useState(false);
   const chatContainerRef = useRef(null);
 
-  const API_KEY = 'AIzaSyD6O2MQ5yKAtAhRwMuxjE3-mR5BE2W-rkY'; // Replace with your actual API key
-
+  const API_KEY = 'AIzaSyD6O2MQ5yKAtAhRwMuxjE3-mR5BE2W-rkY'; 
   const sendMessage = async (text) => {
     setIsTyping(true);
 
-    // Show the user's message immediately
+    // Show the user's message 
     setMessages((prevMessages) => [
       ...prevMessages,
       { text, sender: 'user' },
@@ -75,7 +74,7 @@ const Chat = () => {
 
       const botResponse = response.data.candidates[0].content.parts[0].text;
 
-      // Extract table markdown
+      // identify the tables 
       const tableRegex = /(\|.*\|\r?\n)+/g;
       const match = tableRegex.exec(botResponse);
       const tableMarkdown = match ? match[0] : null;
@@ -100,21 +99,39 @@ const Chat = () => {
   };
 
   useEffect(() => {
-    // Scroll to the bottom whenever messages state updates or typing status changes
+    // Scroll to the bottom while typing
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messages, isTyping]);
 
   const renderContent = (content) => {
-    // Check if content includes <pre> tags
+    // Check if content includes code tags
     if (content.includes('<')) {
       return <StyledPre>{content.replace(/<\/?pre>/g, '')}</StyledPre>;
     }
 
-    // Render text with possible markdown-like formatting
-    const parts = content.split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/).filter(Boolean);
+    // fromatting the text outputs need to improve little bit
+    const parts = content.split(/(##[^#]+##|\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[[^\]]+\]\([^)]+\)|\n)/).filter(Boolean);
+
     return parts.map((part, index) => {
+      if (part.startsWith('##')) {
+        const isMainTopic = part.slice(2).includes(':'); // Check if it's a main topic
+        return (
+          <Typography
+            variant="h5"
+            key={index}
+            style={{
+              fontWeight: 'bold',
+              fontSize: isMainTopic ? '1.5em' : '1.2em', // Increase font size for main topic
+              marginTop: '1em',
+              marginBottom: '0.5em',
+            }}
+          >
+            {part.slice(2)}
+          </Typography>
+        );
+      }
       if (part.startsWith('**') && part.endsWith('**')) {
         return <strong key={index}>{part.slice(2, -2)}</strong>;
       }
@@ -128,6 +145,9 @@ const Chat = () => {
       if (linkMatch) {
         return <a key={index} href={linkMatch[2]} target="_blank" rel="noopener noreferrer" style={{ color: '#90caf9' }}>{linkMatch[1]}</a>;
       }
+      if (part === '\n') {
+        return <br key={index} />;
+      }
       return part;
     });
   };
@@ -138,10 +158,10 @@ const Chat = () => {
       .split('\n')
       .map(row => row.split('|').map(cell => cell.trim()).filter(cell => cell));
 
-    if (rows.length < 3) return null; // Ensure there are enough rows to form a table
+    if (rows.length < 3) return null; 
 
     const headerRow = rows[0];
-    const dataRows = rows.slice(2); // Skip the second row with dashes
+    const dataRows = rows.slice(2); 
 
     const renderCellContent = (content) => renderContent(content);
 

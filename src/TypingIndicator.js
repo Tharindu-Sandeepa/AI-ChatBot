@@ -15,7 +15,7 @@ const dotJump = keyframes`
   }
 `;
 
-// Styled component for dot
+
 const Dot = styled('div')(({ theme }) => ({
   width: 8,
   height: 8,
@@ -25,7 +25,7 @@ const Dot = styled('div')(({ theme }) => ({
   animation: `${dotJump} 1.4s infinite`,
 }));
 
-// Wrapper to animate each dot with a delay
+
 const DotWrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
   '& > div:nth-of-type(1)': {
