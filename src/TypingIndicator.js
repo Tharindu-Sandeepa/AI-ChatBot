@@ -15,16 +15,17 @@ const dotJump = keyframes`
   }
 `;
 
+// Google logo colors
+const googleColors = ['#4285F4', '#DB4437', '#F4B400', '#0F9D58','#fff'];
 
-const Dot = styled('div')(({ theme }) => ({
+const Dot = styled('div')(({ theme, color }) => ({
   width: 8,
   height: 8,
   borderRadius: '50%',
-  backgroundColor: '#4CAF50',
+  backgroundColor: color,
   margin: '0 2px',
   animation: `${dotJump} 1.4s infinite`,
 }));
-
 
 const DotWrapper = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -40,6 +41,9 @@ const DotWrapper = styled(Box)(({ theme }) => ({
   '& > div:nth-of-type(4)': {
     animationDelay: '0.6s',
   },
+  '& > div:nth-of-type(5)': {
+    animationDelay: '0.8s',
+  },
 }));
 
 const TypingIndicator = () => {
@@ -49,7 +53,8 @@ const TypingIndicator = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        width:120,        padding: 1.2,
+        width: 127,
+        padding: 1.2,
         paddingLeft: 3,
         paddingRight: 3,
         borderRadius: '30px',
@@ -60,10 +65,9 @@ const TypingIndicator = () => {
       }}
     >
       <DotWrapper>
-        <Dot />
-        <Dot />
-        <Dot />
-        <Dot />
+        {googleColors.map((color, index) => (
+          <Dot key={index} color={color} />
+        ))}
       </DotWrapper>
       <Typography variant="body1" sx={{ marginLeft: 1 }}>Typing...</Typography>
     </Box>

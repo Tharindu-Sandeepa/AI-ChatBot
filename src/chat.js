@@ -6,7 +6,8 @@ import { styled } from '@mui/material/styles';
 import TypingIndicator from './TypingIndicator';
 import SendIcon from '@mui/icons-material/Send';
 import EditNoteIcon from '@mui/icons-material/EditNote';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from '@mui/icons-material/OpenInNew';
+import logo from './logocol.png';
 
 const darkTheme = createTheme({
   palette: {
@@ -26,7 +27,7 @@ const darkTheme = createTheme({
       secondary: '#B3B3B3',
     },
     send:{
-      main: '#24d366'
+      main: '#fff'
     }
   },
   typography: {
@@ -47,11 +48,14 @@ const StyledPre = styled('pre')(({ theme }) => ({
   margin: 0, 
 }));
 
+
+
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const chatContainerRef = useRef(null);
+  const [hasStartedTyping, setHasStartedTyping] = useState(false);
 
   const API_KEY = 'AIzaSyD6O2MQ5yKAtAhRwMuxjE3-mR5BE2W-rkY'; 
   const sendMessage = async (text) => {
@@ -96,6 +100,7 @@ const Chat = () => {
     if (input.trim()) {
       sendMessage(input);
       setInput('');
+      setHasStartedTyping(true);
     }
   };
 
@@ -105,6 +110,13 @@ const Chat = () => {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [messages, isTyping]);
+
+  const handleInputChange = (e) => {
+    setInput(e.target.value);
+    if (!hasStartedTyping) {
+      setHasStartedTyping(true);
+    }
+  };
 
   const renderContent = (content) => {
     // Check if content includes code tags
@@ -199,25 +211,77 @@ const Chat = () => {
     );
   };
 
+  const exampleQuestions = [
+    "What is the weather like today?",
+    "Tell me a joke.",
+    "What's the latest news?",
+    "Explain the theory of relativity.",
+    "How do I cook a perfect steak?",
+  ];
+
   return (
     <ThemeProvider theme={darkTheme}>
-      <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'background.default', color: 'text.primary' }}>
-      <AppBar position="static" color="primary">
+      <Box sx={{ height: '88vh', display: 'flex', flexDirection: 'column', backgroundColor: 'background.default', color: 'text.primary' ,mb:8,mt:7}}>
+      <AppBar position="fixed" color="primary">
           <Toolbar>
+         
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Chat Application
+            <img src={logo} alt="Logo" style={{ marginRight: 16, height: 56 , outline:'true', }} />
             </Typography>
             <IconButton
               edge="end"
               color="inherit"
               aria-label="new chat"
-              onClick={() => window.location.reload()} // Handle new chat button click
+              onClick={() => window.location.reload()} //  new chat button click
             >
               <AddCircleOutlineIcon />
             </IconButton>
           </Toolbar>
         </AppBar>
         <Box sx={{ flex: 1, overflowY: 'auto', padding: 2 }} ref={chatContainerRef}>
+
+
+          
+        {!hasStartedTyping && (
+  <Box sx={{ ml:-2.5,mb: 2, mt: 6, display: 'flex', flexDirection: 'column', alignItems: 'center',position:'fixed',width:'100%' }}>
+    <img src={logo} alt="Logo" style={{ marginRight: 16, height: 100 , outline:'true' }} />
+    <Grid sx={{mt:7}}container spacing={2} justifyContent="center">
+      {exampleQuestions.map((question, index) => {
+        const googleColors = ['#4285F4', '#DB4437', '#F4B400', '#0F9D58', '#fff'];
+        const borderColor = googleColors[index % googleColors.length];
+        return (
+          <Grid item xs={12} sm={6} md={4} key={index} sx={{ display: 'flex', justifyContent: 'center' }}>
+            <Box
+              sx={{
+                backgroundColor: 'rgba(255, 255, 255, 0.1)', // Transparent background
+                color: '#fff',
+                padding: 2,
+                borderRadius: 2,
+                border: `2px solid ${borderColor}`,
+                transition: 'transform 0.3s ease',
+                '&:hover': {
+                  transform: 'scale(1.05)',
+                  boxShadow: 5,
+                },
+                width: '100%', // Ensures card takes full width available in its Grid item
+                maxWidth: 200, // Maximum width of each card
+              }}
+            >
+              <Typography variant="body1" sx={{ mb: 1, textAlign: 'center', fontWeight: 'bold' }}>
+                {question}
+              </Typography>
+            </Box>
+          </Grid>
+        );
+      })}
+    </Grid>
+  </Box>
+)}
+
+
+
+
+
         <Grid container spacing={2}>
           {messages.map((msg, index) => (
             <Grid item key={index} xs={12}>
@@ -228,6 +292,7 @@ const Chat = () => {
                   marginBottom: 2,
                 }}
               >
+                
                 <Box
                   sx={{
                     maxWidth: '75%',
@@ -255,7 +320,7 @@ const Chat = () => {
             <TypingIndicator />
           </Grid>
         )}
-
+</Box>
         <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: 0, borderTop: '1px solid #333', backgroundColor: 'background.paper' }}>
 
           
@@ -264,9 +329,10 @@ const Chat = () => {
     <TextField
               fullWidth
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={handleInputChange}
               placeholder="Type a message..."
               variant="outlined"
+              
               sx={{
                 marginRight: 1,
                 borderRadius: '30px',
@@ -281,26 +347,26 @@ const Chat = () => {
               }}
             />
             
-<Button 
-  type="submit" 
-  variant="contained" 
-  color="send" 
-  sx={{ 
-    borderRadius: '50%', 
-    width: 40, 
-    height: 40, 
-    minWidth: 0, 
-    padding: 0,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }}
->
-  <SendIcon />
+            <Button
+              type="submit"
+              variant="contained"
+              color="send"
+              sx={{
+                borderRadius: '50%',
+                width: 40,
+                height: 40,
+                minWidth: 0,
+                padding: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+  <SendIcon sx={{color:'#000'}}/>
 </Button>
           </form>
         </Box>
-      </Box></Box>
+      </Box>
     </ThemeProvider>
   );
 };
