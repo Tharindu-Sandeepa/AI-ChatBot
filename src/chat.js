@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Box, Typography, TextField, Button, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { AppBar, Toolbar, IconButton, Box, Typography, TextField, Button, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { styled } from '@mui/material/styles';
 import TypingIndicator from './TypingIndicator';
 import SendIcon from '@mui/icons-material/Send';
-
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const darkTheme = createTheme({
   palette: {
@@ -130,6 +131,7 @@ const Chat = () => {
           >
             {part.slice(2)}
           </Typography>
+          
         );
       }
       if (part.startsWith('**') && part.endsWith('**')) {
@@ -199,7 +201,23 @@ const Chat = () => {
 
   return (
     <ThemeProvider theme={darkTheme}>
-      <Box sx={{ mb: 9, height: '150vh', overflowY: 'auto', padding: 2, backgroundColor: 'background.default', color: 'text.primary', mb: 8 }} ref={chatContainerRef}>
+      <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column', backgroundColor: 'background.default', color: 'text.primary' }}>
+      <AppBar position="static" color="primary">
+          <Toolbar>
+            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              Chat Application
+            </Typography>
+            <IconButton
+              edge="end"
+              color="inherit"
+              aria-label="new chat"
+              onClick={() => window.location.reload()} // Handle new chat button click
+            >
+              <AddCircleOutlineIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <Box sx={{ flex: 1, overflowY: 'auto', padding: 2 }} ref={chatContainerRef}>
         <Grid container spacing={2}>
           {messages.map((msg, index) => (
             <Grid item key={index} xs={12}>
@@ -237,9 +255,13 @@ const Chat = () => {
             <TypingIndicator />
           </Grid>
         )}
+
         <Box sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, padding: 0, borderTop: '1px solid #333', backgroundColor: 'background.paper' }}>
+
+          
           <form onSubmit={handleSubmit} style={{ display: 'flex', alignItems: 'center', padding: '8px', borderRadius: '30px' }}>
-            <TextField
+
+    <TextField
               fullWidth
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -278,7 +300,7 @@ const Chat = () => {
 </Button>
           </form>
         </Box>
-      </Box>
+      </Box></Box>
     </ThemeProvider>
   );
 };
