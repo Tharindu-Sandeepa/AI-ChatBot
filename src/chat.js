@@ -219,7 +219,7 @@ const Chat = () => {
     "Tell me a joke.",
     "What's the latest news?",
     "Explain the theory of relativity.",
-    "How do I cook a perfect steak?",
+    "Write an essay ",
   ];
 
   return (
