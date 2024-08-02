@@ -1,70 +1,91 @@
-# Getting Started with Create React App
+# ai.buddy (Gemini Chatbot)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Gemini Chatbot is a React application that leverages the Gemini API to provide a chatbot experience similar to ChatGPT. The app was built from scratch, with all code implemented by the developer. Data visualization and other enhancements were made with the help of ChatGPT, and the Gemini API documentation was utilized to understand its functionality.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Interactive chatbot interface
+- Supports Markdown and rich text formatting
+- Table rendering for structured data
+- Responsive design
+- Dark theme UI with Google color scheme
+- Typing indicator for improved user experience
 
-### `npm start`
+## Installation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Follow these steps to set up and run the Gemini Chatbot locally:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Prerequisites
 
-### `npm test`
+- Node.js (version 14 or higher)
+- npm (version 6 or higher) or yarn
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Steps
 
-### `npm run build`
+1. **Clone the repository:**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+    ```bash
+    git clone https://github.com/Tharindu-Sandeepa/gemini-chatbot.git
+    cd gemini-chatbot
+    ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. **Install dependencies:**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    ```bash
+    npm install
+    ```
 
-### `npm run eject`
+3. **Create a `.env` file:**
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    In the root directory of the project, create a `.env` file and add your Gemini API key:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    ```plaintext
+    REACT_APP_GEMINI_API_KEY=your_api_key_here
+    ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+4. **Start the development server:**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+    ```bash
+    npm start
+    ```
 
-## Learn More
+    The app should now be running on `http://localhost:3000`.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Usage
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Once the app is running, you can interact with the chatbot by typing your questions into the input field at the bottom of the screen. The chatbot will respond with answers, which may include rich text formatting and tables.
 
-### Code Splitting
+### Example Questions
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- What is the weather like today?
+- Tell me a joke.
+- Explain the theory of relativity.
+- Show me a table of the periodic elements.
 
-### Analyzing the Bundle Size
+## UI Theme
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The app uses a dark theme inspired by Google's Material Design, with a custom color palette. The chat interface includes:
 
-### Making a Progressive Web App
+- An AppBar with the application logo and title
+- A chat container that displays user and bot messages
+- An input field for sending messages
+- A typing indicator to show when the bot is processing a response
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Table Output
 
-### Advanced Configuration
+The chatbot can render tables from Markdown input. Tables are displayed with a styled header and alternating row colors for better readability. Here's an example of how a table is rendered:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Development
 
-### `npm run build` fails to minify
+### Code Structure
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- **src/App.js**: Main component that initializes the chat interface.
+- **src/TypingIndicator.js**: Component that displays the typing indicator.
+- **src/index.js**: Entry point of the application.
+
+### Key Libraries
+
+- React: JavaScript library for building user interfaces
+- Material-UI: React components for faster
