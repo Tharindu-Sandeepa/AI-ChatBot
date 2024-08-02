@@ -11,16 +11,34 @@ Gemini Chatbot is a React application that leverages the Gemini API to provide a
 - Dark theme UI with Google color scheme
 - Typing indicator for improved user experience
 
-## Installation
+## Usage
 
-Follow these steps to set up and run the Gemini Chatbot locally:
+Once the app is running, you can interact with the chatbot by typing your questions into the input field at the bottom of the screen. The chatbot will respond with answers, which may include rich text formatting and tables.
 
-### Prerequisites
+### Example Questions
 
-- Node.js (version 14 or higher)
-- npm (version 6 or higher) or yarn
+- What is the weather like today?
+- Tell me a joke.
+- Explain the theory of relativity.
+- Show me a table of the periodic elements.
 
-### Steps
+## UI Theme
+
+<img src="src/ss/home.png" style="width: 700px; height: auto; margin-bottom: 10px;" />
+<img src="src/ss/phone.png" style="width: 200px; height: auto; margin-bottom: 10px;" />
+
+The app uses a dark theme inspired by Google's Material Design, with a custom color palette. The chat interface includes:
+
+- An AppBar with the application logo and title
+- A chat container that displays user and bot messages
+- An input field for sending messages
+- A typing indicator to show when the bot is processing a response
+
+## Table Output
+
+The chatbot can render tables from Markdown input. Tables are displayed with a styled header and alternating row colors for better readability. Here's an example of how a table is rendered:
+<img src="src/ss/table.png" style="width: 700px; height: auto; margin-bottom: 10px;" />
+
 
 1. **Clone the repository:**
 
@@ -50,34 +68,6 @@ Follow these steps to set up and run the Gemini Chatbot locally:
     ```
 
     The app should now be running on `http://localhost:3000`.
-
-## Usage
-
-Once the app is running, you can interact with the chatbot by typing your questions into the input field at the bottom of the screen. The chatbot will respond with answers, which may include rich text formatting and tables.
-
-### Example Questions
-
-- What is the weather like today?
-- Tell me a joke.
-- Explain the theory of relativity.
-- Show me a table of the periodic elements.
-
-## UI Theme
-
-The app uses a dark theme inspired by Google's Material Design, with a custom color palette. The chat interface includes:
-
-- An AppBar with the application logo and title
-- A chat container that displays user and bot messages
-- An input field for sending messages
-- A typing indicator to show when the bot is processing a response
-
-## Table Output
-
-The chatbot can render tables from Markdown input. Tables are displayed with a styled header and alternating row colors for better readability. Here's an example of how a table is rendered:
-
-
-
-## Development
 
 ### Code Structure
 
