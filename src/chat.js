@@ -9,6 +9,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import AddCircleOutlineIcon from '@mui/icons-material/OpenInNew';
 import logo from './logocol.png';
 
+
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -57,7 +58,9 @@ const Chat = () => {
   const chatContainerRef = useRef(null);
   const [hasStartedTyping, setHasStartedTyping] = useState(false);
 
-  const API_KEY = 'AIzaSyD6O2MQ5yKAtAhRwMuxjE3-mR5BE2W-rkY'; 
+
+  const API_KEY = process.env.REACT_APP_GEMINI_API_KEY;
+
   const sendMessage = async (text) => {
     setIsTyping(true);
 
